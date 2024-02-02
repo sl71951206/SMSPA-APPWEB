@@ -1,0 +1,45 @@
+@media screen and (max-width:980px) {
+
+    .login .card {
+        width: 95% !important;
+    }
+
+}
+
+.login {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login .card {
+    width: 40%;
+    padding: 2em;
+}
+
+.login h4 {
+    margin-bottom: 40px;
+}
+
+.login select {
+    margin-bottom: 20px;
+}
+
+.login small {
+    color: red;
+}
+
+.login .botones {
+    margin-top: 20px;
+    display: flex;
+}
+
+.login .botones input {
+    flex-grow: 1;
+}
+
+.login .botones a {
+    flex-grow: 1;
+    text-align: right;
+}
