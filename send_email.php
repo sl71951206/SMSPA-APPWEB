@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 
 function generarContrasenaAleatoria($longitud) {
     try {
-        $bytesAleatorios = random_bytes($longitud);
+        $bytesAleatorios = random_bytes($longitud / 2);
         $contrasenaAleatoria = bin2hex($bytesAleatorios);
         return $contrasenaAleatoria;
     } catch (Exception $e) {
