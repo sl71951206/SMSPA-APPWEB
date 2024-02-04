@@ -85,7 +85,6 @@ $("#Forgot-password").on("click", function () {
                 type: 'POST',
                 url: 'send_email.php',
                 success: function (response) {
-                    console.log(response);
                     Swal.fire({
                         icon: 'success',
                         title: 'Éxito',
