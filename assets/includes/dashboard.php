@@ -29,14 +29,14 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     <i class='bx bxs-offer nav_icon'></i> 
                     <span class="nav_name">Promociones</span> 
                 </a> 
-                <a href="history.php" class="nav_link <?php echo ($current_page == 'history') ? 'active' : ''; ?>"> 
-                    <i class='bx bx-book-open nav_icon'></i> 
-                    <span class="nav_name">Historial Reservas</span> 
-                </a> 
                 <a href="services.php" class="nav_link <?php echo ($current_page == 'services') ? 'active' : ''; ?>"> 
                     <i class='bx bxs-dish nav_icon'></i> 
                     <span class="nav_name">Servicios</span> 
                 </a>
+                <a href="history.php" class="nav_link <?php echo ($current_page == 'history') ? 'active' : ''; ?>"> 
+                    <i class='bx bx-book-open nav_icon'></i> 
+                    <span class="nav_name">Historial Reservas</span> 
+                </a> 
             </div>
         </div> 
         <a href="#" class="nav_link"> 
@@ -224,13 +224,10 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             // Validate that all variables exist
             if (toggle && nav && bodypd && headerpd) {
                 toggle.addEventListener("click", () => {
-                    // show navbar
+
                     nav.classList.toggle("navbar-show");
-                    // change icon
                     toggle.classList.toggle("bx-x");
-                    // add padding to body
                     bodypd.classList.toggle("body-pd");
-                    // add padding to header
                     headerpd.classList.toggle("body-pd");
                 });
             }

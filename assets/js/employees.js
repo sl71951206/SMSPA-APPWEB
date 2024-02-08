@@ -1,5 +1,7 @@
+var URL_BASE = "http://localhost:8080";
+
 $(document).ready(function () {
-  var id_empleado=null;
+  var id_empleado = null;
   ListarEmpleados();
 
   $("#crearModal form").submit(function (event) {
@@ -11,6 +13,9 @@ $(document).ready(function () {
     var apellidos = $("#crearModal #apellidos").val();
     var urlImagen = $("#crearModal #urlImagen").val();
     var estado = $("#crearModal #estado").val();
+    var telefono = $("#crearModal #telefono").val();
+    var correo = $("#crearModal #correo").val();
+    var descripcion = $("#crearModal #descripcion").val();
 
     // Construir el objeto de datos
     var data = {
@@ -18,10 +23,13 @@ $(document).ready(function () {
       apellidos: apellidos,
       url_foto: urlImagen,
       estado: estado,
+      telefono: telefono,
+      correo: correo,
+      descripcion: descripcion,
     };
 
     $.ajax({
-      url: "http://localhost:8080/spa/empleados/registrar",
+      url: URL_BASE + "/spa/empleados/registrar",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify(data),
@@ -51,15 +59,17 @@ $(document).ready(function () {
 
     // Realizar una solicitud AJAX para obtener la información del empleado con el id proporcionado
     $.ajax({
-      url: "http://localhost:8080/spa/empleados/buscar/" + id_empleado,
+      url: URL_BASE + "/spa/empleados/buscar/" + id_empleado,
       method: "GET",
       dataType: "json",
       success: function (data) {
         $("#editarModal #nombres").val(data.nombres);
         $("#editarModal #apellidos").val(data.apellidos);
         $("#editarModal #urlImagen").val(data.url_foto);
-        /// Con esto
         $("#editarModal #estado").val(data.estado ? "1" : "0");
+        $("#editarModal #telefono").val(data.telefono);
+        $("#editarModal #correo").val(data.correo);
+        $("#editarModal #descripcion").val(data.descripcion);
 
         // Mostrar el modal de edición
         $("#editarModal").modal("show");
@@ -79,7 +89,9 @@ $(document).ready(function () {
     var apellidos = $("#editarModal #apellidos").val();
     var urlImagen = $("#editarModal #urlImagen").val();
     var estado = $("#editarModal #estado").val() === "1" ? true : false;
-
+    var telefono = $("#editarModal #telefono").val();
+    var correo = $("#editarModal #correo").val();
+    var descripcion = $("#editarModal #descripcion").val();
 
     // Construir el objeto de datos
     var data = {
@@ -87,11 +99,14 @@ $(document).ready(function () {
       apellidos: apellidos,
       url_foto: urlImagen,
       estado: estado,
+      telefono: telefono,
+      correo: correo,
+      descripcion: descripcion,
     };
 
     // Realizar la solicitud PUT a la dirección REST
     $.ajax({
-      url: "http://localhost:8080/spa/empleados/editar/"+id_empleado+"",
+      url: URL_BASE + "/spa/empleados/editar/" + id_empleado + "",
       type: "PUT",
       contentType: "application/json",
       data: JSON.stringify(data),
@@ -120,7 +135,7 @@ $(document).ready(function () {
 
 function ListarEmpleados() {
   $.ajax({
-    url: "http://localhost:8080/spa/empleados/listar",
+    url: URL_BASE + "/spa/empleados/listar",
     method: "GET",
     dataType: "json",
     success: function (data) {
@@ -136,6 +151,8 @@ function ListarEmpleados() {
         newRow.append(
           '<td class="text-center">' + employee.apellidos + "</td>"
         );
+        newRow.append('<td class="text-center">' + employee.correo + "</td>");
+        newRow.append('<td class="text-center">' + employee.telefono + "</td>");
         newRow.append(
           '<td class="text-center"><img src="' +
             employee.url_foto +
@@ -148,6 +165,7 @@ function ListarEmpleados() {
             (employee.estado ? "Activo" : "Inactivo") +
             "</td>"
         );
+        newRow.append('<td class="text-center">' + employee.descripcion + "</td>");
         newRow.append(
           '<td class="text-center"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarModal"><i class="fa fa-edit" data-id="' +
             employee.id_empleado +
