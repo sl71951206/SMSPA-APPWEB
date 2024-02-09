@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="assets/css/style-starter.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.css">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales/es.js'></script>
 </head>
 
 <body id="body-pd" style="background-color: #dedede;">
@@ -18,9 +21,53 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?php include_once('assets/includes/dashboard.php'); ?>
 
-    <section id="Calendar">
-        
+    <style>
+        .fc-timegrid-slot-label-cushion {
+            height: 70px;
+            background-color: #2c3e50;
+            color: #fff;
+            border-color: #2c3e50;
+            font-weight: bold;
+        }
+    </style>
+    <section id="Calendar_Section" style="margin-bottom: 15px;margin-top: 15px;">
+        <div id="calendar" style="background-color: white;padding: 20px;border-radius: 20px;"></div>
     </section>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            height: 600,
+            initialView: 'timeGridWeek',
+            locale: 'es',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            slotLabelFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+            },
+            businessHours: {
+                daysOfWeek: [0, 2, 3, 4, 5, 6], // De lunes a viernes
+                startTime: '09:30:00',
+                endTime: '18:00:00'
+            },
+            views: {
+                timeGrid: {
+                    slotDuration: '00:30:00',
+                    slotLabelInterval: '00:30:00',
+                    allDaySlot: false,
+                }
+            },
+            slotMinTime: '09:30:00',
+            slotMaxTime: '18:00:00',
+        });
+        calendar.render();
+    });
+</script>
+
 
 </html>

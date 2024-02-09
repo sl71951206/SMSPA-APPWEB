@@ -156,7 +156,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Aquí se agregarán dinámicamente las filas de la tabla mediante JavaScript -->
                 </tbody>
             </table>
 

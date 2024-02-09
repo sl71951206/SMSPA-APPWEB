@@ -1,3 +1,4 @@
+var URL_BASE = "http://localhost:8080";
 $(document).ready(function () {
   var id_instalacion = null;
   ListarInstalaciones();
@@ -19,7 +20,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-      url: "http://localhost:8080/spa/instalaciones/registrar",
+      url: URL_BASE + "/spa/instalaciones/registrar",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify(data),
@@ -49,7 +50,7 @@ $(document).ready(function () {
 
     // Realizar una solicitud AJAX para obtener la información de la instalación con el id proporcionado
     $.ajax({
-      url: "http://localhost:8080/spa/instalaciones/buscar/" + id_instalacion,
+      url: URL_BASE + "/spa/instalaciones/buscar/" + id_instalacion,
       method: "GET",
       dataType: "json",
       success: function (data) {
@@ -84,8 +85,7 @@ $(document).ready(function () {
 
     // Realizar la solicitud PUT a la dirección REST
     $.ajax({
-      url:
-        "http://localhost:8080/spa/instalaciones/editar/" + id_instalacion + "",
+      url:URL_BASE + "/spa/instalaciones/editar/" + id_instalacion + "",
       type: "PUT",
       contentType: "application/json",
       data: JSON.stringify(data),
@@ -114,7 +114,7 @@ $(document).ready(function () {
 
 function ListarInstalaciones() {
   $.ajax({
-    url: "http://localhost:8080/spa/instalaciones/listar",
+    url: URL_BASE + "/spa/instalaciones/listar",
     method: "GET",
     dataType: "json",
     success: function (data) {

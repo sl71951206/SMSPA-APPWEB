@@ -1,3 +1,5 @@
+var URL_BASE = "http://localhost:8080";
+
 $(document).ready(function () {
   var id_servicio = null;
   ListarServicios();
@@ -26,7 +28,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-      url: "http://localhost:8080/spa/servicios/registrar",
+      url: URL_BASE + "/spa/servicios/registrar",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify(data),
@@ -53,7 +55,7 @@ $(document).ready(function () {
     id_servicio = $(this).find("i").data("id");
 
     $.ajax({
-      url: "http://localhost:8080/spa/servicios/buscar/" + id_servicio,
+      url: URL_BASE + "/spa/servicios/buscar/" + id_servicio,
       method: "GET",
       dataType: "json",
       success: function (data) {
@@ -63,7 +65,7 @@ $(document).ready(function () {
         $("#editarServicioModal #precio").val(data.precio);
         $("#editarServicioModal #urlImagen").val(data.url_imagen);
         $("#editarServicioModal #categoria").val(data.categoria);
-        $("#editarServicioModal #favorito").val(data.estado ? "1" : "0");
+        $("#editarServicioModal #favorito").val(data.favorito ? "1" : "0");
         $("#editarServicioModal #estado").val(data.estado ? "1" : "0");
 
         // Mostrar el modal de edición
@@ -99,7 +101,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-      url: "http://localhost:8080/spa/servicios/editar/" + id_servicio + "",
+      url: URL_BASE + "/spa/servicios/editar/" + id_servicio + "",
       type: "PUT",
       contentType: "application/json",
       data: JSON.stringify(data),
@@ -125,7 +127,7 @@ $(document).ready(function () {
 
 function ListarServicios() {
   $.ajax({
-    url: "http://localhost:8080/spa/servicios/listar",
+    url: URL_BASE + "/spa/servicios/listar",
     method: "GET",
     dataType: "json",
     success: function (data) {
