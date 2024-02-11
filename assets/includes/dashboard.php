@@ -39,7 +39,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 </a> 
             </div>
         </div> 
-        <a href="#" class="nav_link"> 
+        <a href="assets/includes/logout.php" class="nav_link"> 
             <i class='bx bx-log-out nav_icon'></i> 
             <span class="nav_name">Cerrar Sesión</span> 
         </a>

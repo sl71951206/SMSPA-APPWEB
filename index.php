@@ -1,32 +1,38 @@
 <?php
-    session_start();
-    error_reporting(0);
+session_start();
+error_reporting(0);
 
-    if (isset($_POST['signin'])) {
-        $useradmin = isset($_POST['options']) ? $_POST['options'] : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-        if ($useradmin === 'user' && $password !== '') {
-            $sec = "assets/sec/user.txt";
-            $contenido = file_get_contents($sec);
-            if ($contenido == $password) {
-                $_SESSION['useradmin'] = $useradmin;
-                header('location:dashboard.php');
-            } else {
-                $msg = "Contraseña no es correcta.";
-            }
-        } elseif ($useradmin === 'admin' && $password !== '') {
-            $sec = "assets/sec/admin.txt";
-            $contenido = file_get_contents($sec);
-            if ($contenido == $password) {
-                $_SESSION['useradmin'] = $useradmin;
-                header('location:dashboard.php');
-            } else {
-                $msg = "Contraseña no es correcta.";
-            }
+// Verificar si la sesión ya está iniciada y useradmin está establecido
+if (isset($_SESSION['useradmin'])) {
+    header('location:calendar.php');
+    exit();
+}
+
+if (isset($_POST['signin'])) {
+    $useradmin = isset($_POST['options']) ? $_POST['options'] : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    if ($useradmin === 'user' && $password !== '') {
+        $sec = "assets/sec/user.txt";
+        $contenido = file_get_contents($sec);
+        if ($contenido == $password) {
+            $_SESSION['useradmin'] = $useradmin;
+            header('location:calendar.php');
         } else {
-            $msg = "Nombre de usuario '" . $useradmin . "' no es válido.";
+            $msg = "Contraseña no es correcta.";
         }
+    } elseif ($useradmin === 'admin' && $password !== '') {
+        $sec = "assets/sec/admin.txt";
+        $contenido = file_get_contents($sec);
+        if ($contenido == $password) {
+            $_SESSION['useradmin'] = $useradmin;
+            header('location:calendar.php');
+        } else {
+            $msg = "Contraseña no es correcta.";
+        }
+    } else {
+        $msg = "Nombre de usuario '" . $useradmin . "' no es válido.";
     }
+}
 ?>
 
 <!doctype html>
@@ -57,9 +63,10 @@
                             <option value="user">Recepcionista</option>
                             <option value="admin">Administrador</option>
                         </select>
-                        <input class="form-control input-medio" type="password" name="password" placeholder="******"
-                            required="true">
-                        <small><?php if (isset($msg)) { echo $msg; } ?></small>
+                        <input class="form-control input-medio" type="password" name="password" placeholder="******" required="true">
+                        <small><?php if (isset($msg)) {
+                                    echo $msg;
+                                } ?></small>
                         <div class="botones">
                             <input type="submit" class="btn btn-success" name="signin" value="Iniciar sesión">
                             <a id="Forgot-password" type="post" name="recuperar_password" style="cursor: pointer;color: blue;"><u>Recuperar Contraseña</u></a>
@@ -71,42 +78,42 @@
     </section>
 </body>
 <script>
-$("#Forgot-password").on("click", function () {
-    Swal.fire({
-        title: '¿Desea continuar?',
-        text: 'Está a punto de enviar un Correo de Recuperación de Contraseña',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, continuar',
-        cancelButtonText: 'No, cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: 'POST',
-                url: 'send_email.php',
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Éxito',
-                        text: 'Mail de Recuperación enviado con éxito',
-                        timer: 2500,
-                        showConfirmButton: false,
-                        allowOutsideClick: false,
-                    }).then(() => {
-                        window.location.href = 'index.php';
-                    });
-                },
-                error: function (error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error al enviar el correo',
-                    });
-                }
-            });
-        }
+    $("#Forgot-password").on("click", function() {
+        Swal.fire({
+            title: '¿Desea continuar?',
+            text: 'Está a punto de enviar un Correo de Recuperación de Contraseña',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'send_email.php',
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'Mail de Recuperación enviado con éxito',
+                            timer: 2500,
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                        }).then(() => {
+                            window.location.href = 'index.php';
+                        });
+                    },
+                    error: function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al enviar el correo',
+                        });
+                    }
+                });
+            }
+        });
     });
-});
-
 </script>
+
 </html>

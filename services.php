@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
+    header('Location: index.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 

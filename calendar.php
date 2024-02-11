@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
+    header('Location: index.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -84,14 +92,32 @@
                         dataType: 'json',
                         success: function(data) {
                             var eventos = data.map(function(reserva) {
+                                var color = null;
                                 var fechaInicio = new Date(reserva.fecha + ' ' + reserva.hora);
                                 var fechaFin = new Date(reserva.fecha + ' ' + reserva.hora);
                                 fechaFin.setMinutes(fechaFin.getMinutes() + 30);
+
+                                switch (reserva.id_servicio.nombre) {
+                                    case 'Tratamiento Facial Hidratante':
+                                        color = 'red';
+                                        break;
+                                    case 'Tratamiento Facial Hidratante':
+                                        color = 'red';
+                                        break;
+
+                                    default:
+                                        color = '#ff6666';
+                                }
+
                                 return {
                                     title: reserva.id_servicio.nombre,
                                     start: fechaInicio,
-                                    end: fechaFin
+                                    end: fechaFin,
+                                    backgroundColor: color,
+                                    borderColor: '#ff6666'
                                 };
+
+
                             });
 
                             // Llamar a la función de éxito de FullCalendar con los eventos
