@@ -10,7 +10,7 @@ $(document).ready(function () {
     var nombre = $("#crearServicioModal #nombre").val();
     var descripcion = $("#crearServicioModal #descripcion").val();
     var duracion = $("#crearServicioModal #duracion").val();
-    var precio = $("#crearServicioModal #precio").val();
+    var precio = ($("#crearServicioModal #precio").val()/1).toFixed(2);
     var urlImagen = $("#crearServicioModal #urlImagen").val();
     var categoria = $("#crearServicioModal #categoria").val();
     var favorito = $("#crearServicioModal #favorito").val();
@@ -62,7 +62,7 @@ $(document).ready(function () {
         $("#editarServicioModal #nombre").val(data.nombre);
         $("#editarServicioModal #descripcion").val(data.descripcion);
         $("#editarServicioModal #duracion").val(data.duracion);
-        $("#editarServicioModal #precio").val(data.precio);
+        $("#editarServicioModal #precio").val((data.precio/1).toFixed(2));
         $("#editarServicioModal #urlImagen").val(data.url_imagen);
         $("#editarServicioModal #categoria").val(data.categoria);
         $("#editarServicioModal #favorito").val(data.favorito ? "1" : "0");
@@ -144,7 +144,7 @@ function ListarServicios() {
           '<td class="text-center">' + service.descripcion + "</td>"
         );
         newRow.append('<td class="text-center">' + service.duracion + " min."+"</td>");
-        newRow.append('<td class="text-center">'+"S/"+ + service.precio + "</td>");
+        newRow.append('<td class="text-center">'+"S/"+ (service.precio/1).toFixed(2) + "</td>");
         newRow.append(
           '<td class="text-center"><img src="' +
             service.url_imagen +

@@ -126,12 +126,13 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     <section id="History" style="margin-bottom: 35px;">
         <div class="container">
             <h2 class="text-center mt-5"><u><i class='bx bx-book-open'></i> Historial de Reservas:</u></h2>
+            <!--
             <div class="form-group mt-3">
                 <form class="inline-form" action="" method="POST">
                     <button type="submit" name="accion" value="ExportarPDF" class="btn btn-outline-danger"><i class="fa fa-file-pdf-o"></i> Exportar En Formato PDF</button>
                 </form>
             </div>
-
+            -->
             <table id="historyTable" class="table table-hover table-bordered mt-1">
                 <thead class="table-dark">
                     <tr>

@@ -6,7 +6,7 @@ $(document).ready(function () {
   // Función para listar reservas
   function ListarReservas() {
     $.ajax({
-      url: URL_BASE + "/spa/reservas/listar",
+      url: URL_BASE + "/spa/reservas/listarReservasPasadas/0",
       method: "GET",
       dataType: "json",
       success: function (data) {

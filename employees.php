@@ -132,7 +132,9 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearModal">
                         <i class="fa fa-plus-square"></i> Nuevo Empleado
                     </button>
+                    <!--
                     <button type="submit" name="accion" value="ExportarPDF" class="btn btn-outline-danger"><i class="fa fa-file-pdf-o"></i> Exportar En Formato PDF</button>
+-->
                 </form>
             </div>
 

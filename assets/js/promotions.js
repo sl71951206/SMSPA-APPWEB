@@ -185,9 +185,11 @@ $(document).ready(function () {
             '<td class="text-center">' + promotion.descuento + "%" + "</td>"
           );
           newRow.append('<td class="text-center">' + promotion.tipo + "</td>");
+          /*
           newRow.append(
             '<td class="text-center">' + promotion.servicios + "</td>"
           );
+          */
           newRow.append(
             '<td class="text-center"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarModal"><i class="fa fa-edit" data-id="' +
               promotion.id_promocion +
@@ -210,14 +212,14 @@ $(document).ready(function () {
 
   function cargarServiciosDisponibles() {
     $.ajax({
-      url: URL_BASE + "/spa/servicios/listarServiciosDisponibles",
+      url: URL_BASE + "/spa/servicios/listarServiciosSinPromociones",
       method: "GET",
       dataType: "json",
       success: function (data) {
         $.each(data, function (index, servicio) {
           $("#crearModal #servicioRelacionado").append(
             '<option value="' +
-              servicio.nombre +
+              servicio.value +
               '">' +
               servicio.nombre +
               "</option>"
@@ -233,14 +235,14 @@ $(document).ready(function () {
   function cargarTodoslosServicios(){
 
     $.ajax({
-      url: URL_BASE + "/spa/servicios/listar",
+      url: URL_BASE + "/spa/servicios/listarServiciosSinPromociones",
       method: "GET",
       dataType: "json",
       success: function (data) {
         $.each(data, function (index, servicio) {
           $("#editarModal #servicioRelacionadoEditar").append(
             '<option value="' +
-              servicio.nombre +
+              servicio.value +
               '">' +
               servicio.nombre +
               "</option>"

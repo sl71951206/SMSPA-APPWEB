@@ -50,7 +50,7 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                         </div>
                         <div class="mb-3">
                             <label for="precio" class="form-label">Precio:</label>
-                            <input type="number" class="form-control" id="precio" placeholder="Ingrese precio" required>
+                            <input type="text" class="form-control" id="precio" placeholder="Ingrese precio" required>
                         </div>
                         <div class="mb-3">
                             <label for="urlImagen" class="form-label">Url Imagen:</label>
@@ -144,10 +144,11 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearServicioModal">
                         <i class="fa fa-plus-square"></i> Nuevo Servicio
                     </button>
+                    <!--
                     <button type="submit" name="accion" value="ExportarPDF" class="btn btn-outline-danger"><i class="fa fa-file-pdf-o"></i> Exportar En Formato PDF</button>
+                    -->
                 </form>
             </div>
-
             <table id="servicesTable" class="table table-hover table-bordered mt-1">
                 <thead class="table-dark">
                     <tr>

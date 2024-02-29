@@ -87,7 +87,7 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                 events: function(fetchInfo, successCallback, failureCallback) {
                     // Realizar la solicitud AJAX para obtener los eventos
                     $.ajax({
-                        url: 'http://localhost:8080/spa/reservas/listar',
+                        url: 'http://localhost:8080/spa/reservas/listarReservasRecientes',
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {

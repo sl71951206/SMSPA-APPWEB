@@ -76,11 +76,13 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                                 <option value="EN_EFECTIVO">Efectivo</option>
                             </select>
                         </div>
+                        <!--
                         <div class="mb-3">
                             <label for="servicioRelacionado" class="form-label">Servicio Relacionado:</label>
                             <select class="form-select" id="servicioRelacionado" required>
                             </select>
                         </div>
+-->
                         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Crear Promoción</button>
                     </form>
                 </div>
@@ -136,11 +138,13 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                                 <option value="EN_EFECTIVO">Efectivo</option>
                             </select>
                         </div>
+                        <!--
                         <div class="mb-3">
                             <label for="editServicioRelacionado" class="form-label">Servicio Relacionado:</label>
                             <select class="form-select" id="servicioRelacionadoEditar" required>
                             </select>
                         </div>
+-->
                         <button type="submit" class="btn btn-warning"><i class="fa fa-save"></i> Guardar Cambios</button>
                     </form>
                 </div>
@@ -173,7 +177,7 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                         <th class="text-center">URL Imagen</th>
                         <th class="text-center">Descuento</th>
                         <th class="text-center">Tipo</th>
-                        <th class="text-center">Servicio</th>
+                        <!--<th class="text-center">Servicio</th>-->
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
