@@ -4,6 +4,9 @@ session_start();
 if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     header('Location: index.php');
     exit();
+} else if ($_SESSION['useradmin'] === 'user') {
+    header('Location: calendar.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -25,7 +28,13 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/facilities.js"></script>
-    <?php include_once('assets/includes/dashboard.php'); ?>
+    <?php
+        if ($_SESSION['useradmin'] === 'user') {
+            include_once('assets/includes/dashboard2.php');
+        } elseif ($_SESSION['useradmin'] === 'admin') {
+            include_once('assets/includes/dashboard.php');
+        }
+    ?>
     <!---Modal Crear-->
     <div class="modal fade" id="crearModal">
         <div class="modal-dialog modal-dialog-centered">

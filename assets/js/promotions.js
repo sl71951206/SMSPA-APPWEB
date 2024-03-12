@@ -11,27 +11,21 @@ $(document).ready(function () {
     event.preventDefault();
 
     // Obtener los valores de los campos del formulario
-    var titulo = $("#crearModal #titulo").val();
-    var descripcion = $("#crearModal #descripcion").val();
-    var estado = $("#crearModal #estado").val();
-    var fechaInicio = $("#crearModal #fechaInicio").val();
-    var fechaFin = $("#crearModal #fechaFin").val();
-    var urlImagen = $("#crearModal #urlImagen").val();
+    var titulo = $("#crearModal #titulo").val().trim();
     var descuento = $("#crearModal #descuento").val();
     var tipo = $("#crearModal #tipo").val();
-    var servicioRelacionado = $("#crearModal #servicioRelacionado").val();
+    var fechaInicio = $("#crearModal #fechaInicio").val();
+    var fechaFin = $("#crearModal #fechaFin").val();
+    var descripcion = $("#crearModal #descripcion").val().trim();
 
     // Construir el objeto de datos
     var data = {
       titulo: titulo,
-      descripcion: descripcion,
-      estado: estado,
-      fecha_inicio: fechaInicio,
-      fecha_fin: fechaFin,
-      url_imagen: urlImagen,
       descuento: descuento,
       tipo: tipo,
-      servicios: servicioRelacionado,
+      fecha_inicio: fechaInicio,
+      fecha_fin: fechaFin,
+      descripcion: descripcion,
     };
 
     $.ajax({
@@ -55,13 +49,18 @@ $(document).ready(function () {
         ListarPromociones();
       },
       error: function (error) {
+        Swal.fire({
+          title: "Error al registrar promoción",
+          text: error.responseText,
+          icon: "error",
+        });
         console.error("Error en el registro:", error);
       },
     });
   });
 
   $("#promotionsTable").on("click", ".btn-warning", function () {
-    id_promocion = $(this).find("i").data("id");
+    id_promocion = $(this).closest("tr").data("id");
 
     // Realizar una solicitud AJAX para obtener la información de la promoción con el id proporcionado
     $.ajax({
@@ -70,16 +69,11 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         $("#editarModal #editTitulo").val(data.titulo);
-        $("#editarModal #editDescripcion").val(data.descripcion);
-        $("#editarModal #editEstado").val(data.estado ? "1" : "0");
-        $("#editarModal #editFechaInicio").val(data.fecha_inicio);
-        $("#editarModal #editFechaFin").val(data.fecha_fin);
-        $("#editarModal #editUrlImagen").val(data.url_imagen);
         $("#editarModal #editDescuento").val(data.descuento);
         $("#editarModal #editTipo").val(data.tipo);
-        $("#editarModal #servicioRelacionadoEditar").val(
-          data.servicios
-        );
+        $("#editarModal #editFechaInicio").val(data.fecha_inicio);
+        $("#editarModal #editFechaFin").val(data.fecha_fin);
+        $("#editarModal #editDescripcion").val(data.descripcion);
 
         // Mostrar el modal de edición
         $("#editarModal").modal("show");
@@ -93,26 +87,20 @@ $(document).ready(function () {
   $("#editarModal form").submit(function (event) {
     event.preventDefault();
 
-    var titulo = $("#editarModal #editTitulo").val();
-    var descripcion = $("#editarModal #editDescripcion").val();
-    var estado = $("#editarModal #editEstado").val() === "1" ? true : false;
-    var fechaInicio = $("#editarModal #editFechaInicio").val();
-    var fechaFin = $("#editarModal #editFechaFin").val();
-    var urlImagen = $("#editarModal #editUrlImagen").val();
+    var titulo = $("#editarModal #editTitulo").val().trim();
     var descuento = $("#editarModal #editDescuento").val();
     var tipo = $("#editarModal #editTipo").val();
-    var servicioRelacionado = $("#editarModal #servicioRelacionadoEditar").val();
+    var fechaInicio = $("#editarModal #editFechaInicio").val();
+    var fechaFin = $("#editarModal #editFechaFin").val();
+    var descripcion = $("#editarModal #editDescripcion").val().trim();
 
     var data = {
       titulo: titulo,
-      descripcion: descripcion,
-      estado: estado,
-      fecha_inicio: fechaInicio,
-      fecha_fin: fechaFin,
-      url_imagen: urlImagen,
       descuento: descuento,
       tipo: tipo,
-      servicios: servicioRelacionado,
+      fecha_inicio: fechaInicio,
+      fecha_fin: fechaFin,
+      descripcion: descripcion,
     };
 
     $.ajax({
@@ -136,7 +124,11 @@ $(document).ready(function () {
         ListarPromociones();
       },
       error: function (error) {
-        // Manejar errores
+        Swal.fire({
+          title: "Error al registrar promoción",
+          text: error.responseText,
+          icon: "error",
+        });
         console.error("Error en la edición:", error);
       },
     });
@@ -150,26 +142,26 @@ $(document).ready(function () {
       success: function (data) {
         // Limpiar la tabla
         $("#promotionsTable tbody").empty();
-
+        var cont = 0;
         $.each(data, function (index, promotion) {
-          var newRow = $("<tr>");
+          cont++;
+          if (promotion.estado) {
+            var newRow = $('<tr data-id="' + promotion.id_promocion + '">');
+          } else {
+            var newRow = $('<tr class="bg-secondary text-white" data-id="' + promotion.id_promocion + '">');
+          }
           newRow.append(
-            '<td class="text-center">' + promotion.id_promocion + "</td>"
+            '<td class="text-center">' + cont + "</td>"
           );
           newRow.append(
             '<td class="text-center">' + promotion.titulo + "</td>"
           );
           newRow.append(
-            '<td class="text-center">' + promotion.descripcion + "</td>"
+            '<td class="text-center">' + promotion.descuento + "</td>"
           );
-          newRow.append(
-            '<td class="text-center">' +
-              (promotion.estado ? "Activo" : "Inactivo") +
-              "</td>"
-          );
+          newRow.append('<td class="text-center">' + promotion.tipo + "</td>");
           var fechaInicioFormateada = formatearFecha(promotion.fecha_inicio);
           var fechaFinFormateada = formatearFecha(promotion.fecha_fin);
-
           newRow.append(
             '<td class="text-center">' + fechaInicioFormateada + "</td>"
           );
@@ -177,25 +169,21 @@ $(document).ready(function () {
             '<td class="text-center">' + fechaFinFormateada + "</td>"
           );
           newRow.append(
-            '<td class="text-center"><img src="' +
-              promotion.url_imagen +
-              '" alt="Imagen de la promoción" style="max-width: 100px;"></td>'
+            '<td class="text-center">' + promotion.descripcion + "</td>"
           );
-          newRow.append(
-            '<td class="text-center">' + promotion.descuento + "%" + "</td>"
-          );
-          newRow.append('<td class="text-center">' + promotion.tipo + "</td>");
-          /*
-          newRow.append(
-            '<td class="text-center">' + promotion.servicios + "</td>"
-          );
-          */
-          newRow.append(
-            '<td class="text-center"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarModal"><i class="fa fa-edit" data-id="' +
-              promotion.id_promocion +
-              '"></i> Editar</button></td>'
-          );
-
+          if (promotion.url_imagen != null) {
+            var btn_img = '<button type="button" class="btn btn-info"><i class="fa fa-image" title="Imagen"></i></button>'
+          } else {
+            var btn_img = '<button type="button" class="btn btn-info"><i class="fa fa-upload" title="Imagen"></i></button>'
+          }
+          var btn_edit = '<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarModal" title="Editar"><i class="fa fa-edit"></i></button>';
+          var btn_hab = '<button type="button" class="btn btn-danger"><i class="fa fa-archive" ';
+          if (promotion.estado) {
+            btn_hab = btn_hab + 'title="Inhabilitar"></i></button>';
+          } else {
+            btn_hab = btn_hab + 'title="Habilitar"></i></button>';
+          }
+          newRow.append('<td class="text-center">' + btn_img + btn_edit + btn_hab + '</td>');
           $("#promotionsTable tbody").append(newRow);
         });
       },

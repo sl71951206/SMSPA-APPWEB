@@ -28,7 +28,13 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <?php include_once('assets/includes/dashboard.php'); ?>
+    <?php
+        if ($_SESSION['useradmin'] === 'user') {
+            include_once('assets/includes/dashboard2.php');
+        } elseif ($_SESSION['useradmin'] === 'admin') {
+            include_once('assets/includes/dashboard.php');
+        }
+    ?>
 
     <style>
         .fc-timegrid-slot-label-cushion {

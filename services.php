@@ -4,6 +4,9 @@ session_start();
 if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     header('Location: index.php');
     exit();
+} else if ($_SESSION['useradmin'] === 'user') {
+    header('Location: calendar.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -25,7 +28,13 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/services.js"></script>
-    <?php include_once('assets/includes/dashboard.php'); ?>
+    <?php
+        if ($_SESSION['useradmin'] === 'user') {
+            include_once('assets/includes/dashboard2.php');
+        } elseif ($_SESSION['useradmin'] === 'admin') {
+            include_once('assets/includes/dashboard.php');
+        }
+    ?>
     <!---Modal Crear Servicio -->
     <div class="modal fade" id="crearServicioModal">
         <div class="modal-dialog modal-dialog-centered">
@@ -38,41 +47,23 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                     <form>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre" required>
+                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre" required maxlength="200">
                         </div>
                         <div class="mb-3">
                             <label for="descripcion" class="form-label">Descripción:</label>
-                            <textarea class="form-control" id="descripcion" placeholder="Ingrese descripción" required></textarea>
+                            <textarea class="form-control" id="descripcion" placeholder="Ingrese descripción" maxlength="2000"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="duracion" class="form-label">Duración (minutos):</label>
-                            <input type="number" class="form-control" id="duracion" placeholder="Ingrese duración" required>
+                            <input type="number" class="form-control" id="duracion" placeholder="Ingrese duración" required maxlength="6">
                         </div>
                         <div class="mb-3">
                             <label for="precio" class="form-label">Precio:</label>
-                            <input type="text" class="form-control" id="precio" placeholder="Ingrese precio" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="urlImagen" class="form-label">Url Imagen:</label>
-                            <input type="text" class="form-control" id="urlImagen" placeholder="Ingrese la URL de la imagen" required>
+                            <input type="text" class="form-control" id="precio" placeholder="Ingrese precio" required pattern="\d{1,5}\.\d{2}">
                         </div>
                         <div class="mb-3">
                             <label for="categoria" class="form-label">Categoría:</label>
-                            <input type="text" class="form-control" id="categoria" placeholder="Ingrese la categoría" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="favorito" class="form-label">Favorito:</label>
-                            <select class="form-select" id="favorito">
-                                <option value="true">Sí</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado:</label>
-                            <select class="form-select" id="estado">
-                                <option value="true">Activo</option>
-                                <option value="false">Inactivo</option>
-                            </select>
+                            <input type="text" class="form-control" id="categoria" placeholder="Ingrese categoría" required maxlength="100">
                         </div>
                         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Registrar</button>
                     </form>
@@ -93,43 +84,53 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                     <form>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre">
+                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre" required maxlength="200">
                         </div>
                         <div class="mb-3">
                             <label for="descripcion" class="form-label">Descripción:</label>
-                            <textarea class="form-control" id="descripcion" placeholder="Ingrese descripción"></textarea>
+                            <textarea class="form-control" id="descripcion" placeholder="Ingrese descripción" maxlength="2000"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="duracion" class="form-label">Duración (minutos):</label>
-                            <input type="number" class="form-control" id="duracion" placeholder="Ingrese duración">
+                            <input type="number" class="form-control" id="duracion" placeholder="Ingrese duración" required maxlength="6">
                         </div>
                         <div class="mb-3">
                             <label for="precio" class="form-label">Precio:</label>
-                            <input type="number" class="form-control" id="precio" placeholder="Ingrese precio">
-                        </div>
-                        <div class="mb-3">
-                            <label for="urlImagen" class="form-label">Url Imagen:</label>
-                            <input type="text" class="form-control" id="urlImagen" placeholder="Ingrese la URL de la imagen">
+                            <input type="text" class="form-control" id="precio" placeholder="Ingrese precio" required pattern="\d{1,5}\.\d{2}">
                         </div>
                         <div class="mb-3">
                             <label for="categoria" class="form-label">Categoría:</label>
-                            <input type="text" class="form-control" id="categoria" placeholder="Ingrese la categoría">
-                        </div>
-                        <div class="mb-3">
-                            <label for="favorito" class="form-label">Favorito:</label>
-                            <select class="form-select" id="favorito">
-                                <option value="1">Sí</option>
-                                <option value="0">No</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado:</label>
-                            <select class="form-select" id="estado">
-                                <option value="1">Activo</option>
-                                <option value="0">Inactivo</option>
-                            </select>
+                            <input type="text" class="form-control" id="categoria" placeholder="Ingrese categoría" required maxlength="100">
                         </div>
                         <button type="submit" class="btn btn-warning"><i class="fa fa-save"></i> Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Imagen Servicio -->
+    <div class="modal fade" id="imagenServicioModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title" id="exampleModalLabel">Imagen del servicio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <img src="" class="img-fluid" alt="" id="imagen">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre_imagen" class="form-label">Nombre de la imagen:</label>
+                            <input type="text" class="form-control" id="nombre_imagen" placeholder="Ingrese nombre de la imagen" required maxlength="1000" pattern="[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+">
+                        </div>
+                        <div class="mb-3">
+                            <label for="archivo_imagen" class="form-label">Archivo de imagen:</label>
+                            <input class="form-control" type="file" id="archivo_imagen" required>
+                        </div>
+                        <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Actualizar</button>
                     </form>
                 </div>
             </div>
@@ -152,16 +153,16 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
             <table id="servicesTable" class="table table-hover table-bordered mt-1">
                 <thead class="table-dark">
                     <tr>
-                        <th class="text-center">Código</th>
+                        <th class="text-center"></th>
                         <th class="text-center">Nombre</th>
                         <th class="text-center">Descripción</th>
                         <th class="text-center">Duración</th>
                         <th class="text-center">Precio</th>
-                        <th class="text-center">Url Imagen</th>
+                        <!--<th class="text-center">Url Imagen</th>-->
                         <th class="text-center">Categoría</th>
                         <th class="text-center">Favorito</th>
-                        <th class="text-center">Estado</th>
-                        <th class="text-center">Acción</th>
+                        <!--<th class="text-center">Estado</th>-->
+                        <th class="text-center">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -170,6 +171,19 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
 
         </div>
     </section>
+    <style>
+        .blackstar {
+            font-size: 25px;
+            color: black !important;
+        }
+        .estrella {
+            font-size: 25px;
+        }
+        .estrella:hover {
+            cursor: pointer;
+            transform: scale(1.5);
+        }
+    </style>
 </body>
 
 </html>

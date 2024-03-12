@@ -20,22 +20,6 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 <a href="history.php" class="nav_link <?php echo ($current_page == 'history') ? 'active' : ''; ?>"> 
                     <i class='bx bx-book-open nav_icon'></i> 
                     <span class="nav_name">Historial Reservas</span> 
-                </a> 
-                <a href="employees.php" class="nav_link <?php echo ($current_page == 'employees') ? 'active' : ''; ?>"> 
-                    <i class='bx bx-user nav_icon'></i> 
-                    <span class="nav_name">Empleados</span> 
-                </a> 
-                <a href="facilities.php" class="nav_link <?php echo ($current_page == 'facilities') ? 'active' : ''; ?>"> 
-                    <i class='bx bxs-building-house nav_icon'></i> 
-                    <span class="nav_name">Instalaciones</span> 
-                </a> 
-                <a href="promotions.php" class="nav_link <?php echo ($current_page == 'promotions') ? 'active' : ''; ?>"> 
-                    <i class='bx bxs-offer nav_icon'></i> 
-                    <span class="nav_name">Promociones</span> 
-                </a> 
-                <a href="services.php" class="nav_link <?php echo ($current_page == 'services') ? 'active' : ''; ?>"> 
-                    <i class='bx bxs-dish nav_icon'></i> 
-                    <span class="nav_name">Servicios</span> 
                 </a>
             </div>
         </div> 

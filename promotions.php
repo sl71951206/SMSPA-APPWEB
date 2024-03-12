@@ -4,6 +4,9 @@ session_start();
 if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     header('Location: index.php');
     exit();
+} else if ($_SESSION['useradmin'] === 'user') {
+    header('Location: calendar.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -26,7 +29,13 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/promotions.js"></script>
 
-    <?php include_once('assets/includes/dashboard.php'); ?>
+    <?php
+        if ($_SESSION['useradmin'] === 'user') {
+            include_once('assets/includes/dashboard2.php');
+        } elseif ($_SESSION['useradmin'] === 'admin') {
+            include_once('assets/includes/dashboard.php');
+        }
+    ?>
 
     <!-- Modal Crear -->
     <div class="modal fade" id="crearModal">
@@ -40,17 +49,17 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                     <form>
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título:</label>
-                            <input type="text" class="form-control" id="titulo" placeholder="Ingrese el título" required>
+                            <input type="text" class="form-control" id="titulo" placeholder="Ingrese el título" required maxlength="500">
                         </div>
                         <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción:</label>
-                            <textarea class="form-control" id="descripcion" placeholder="Ingrese la descripción" required></textarea>
+                            <label for="descuento" class="form-label">Descuento:</label>
+                            <input type="number" class="form-control" id="descuento" placeholder="Ingrese el descuento" required maxlength="6">
                         </div>
                         <div class="mb-3">
-                            <label for="estado" class="form-label">Estado:</label>
-                            <select class="form-select" id="estado" required>
-                                <option value="true">Activo</option>
-                                <option value="false">Inactivo</option>
+                            <label for="tipo" class="form-label">Tipo:</label>
+                            <select class="form-select" id="tipo" required>
+                                <option value="PORCENTUAL">Porcentual</option>
+                                <option value="EFECTIVO">Efectivo</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -62,27 +71,9 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                             <input type="date" class="form-control" id="fechaFin" required>
                         </div>
                         <div class="mb-3">
-                            <label for="urlImagen" class="form-label">URL de la Imagen:</label>
-                            <input type="text" class="form-control" id="urlImagen" placeholder="Ingrese la URL de la imagen" required>
+                            <label for="descripcion" class="form-label">Descripción:</label>
+                            <textarea class="form-control" id="descripcion" placeholder="Ingrese la descripción" maxlength="3000"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="descuento" class="form-label">Descuento (%):</label>
-                            <input type="number" class="form-control" id="descuento" placeholder="Ingrese el descuento" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tipo" class="form-label">Tipo:</label>
-                            <select class="form-select" id="tipo" required>
-                                <option value="PORCENTUAL">Porcentual</option>
-                                <option value="EN_EFECTIVO">Efectivo</option>
-                            </select>
-                        </div>
-                        <!--
-                        <div class="mb-3">
-                            <label for="servicioRelacionado" class="form-label">Servicio Relacionado:</label>
-                            <select class="form-select" id="servicioRelacionado" required>
-                            </select>
-                        </div>
--->
                         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Crear Promoción</button>
                     </form>
                 </div>
@@ -101,51 +92,33 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="editTitulo" class="form-label">Título:</label>
-                            <input type="text" class="form-control" id="editTitulo" placeholder="Ingrese el título" required>
+                            <label for="titulo" class="form-label">Título:</label>
+                            <input type="text" class="form-control" id="editTitulo" placeholder="Ingrese el título" required maxlength="500">
                         </div>
                         <div class="mb-3">
-                            <label for="editDescripcion" class="form-label">Descripción:</label>
-                            <textarea class="form-control" id="editDescripcion" placeholder="Ingrese la descripción"></textarea required>
+                            <label for="descuento" class="form-label">Descuento:</label>
+                            <input type="number" class="form-control" id="editDescuento" placeholder="Ingrese el descuento" required maxlength="6">
                         </div>
                         <div class="mb-3">
-                            <label for="editEstado" class="form-label">Estado:</label>
-                            <select class="form-select" id="editEstado" required>
-                                <option value="1">Activo</option>
-                                <option value="0">Inactivo</option>
+                            <label for="tipo" class="form-label">Tipo:</label>
+                            <select class="form-select" id="editTipo" required>
+                                <option value="PORCENTUAL">Porcentual</option>
+                                <option value="EFECTIVO">Efectivo</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="editFechaInicio" class="form-label">Fecha de Inicio:</label>
+                            <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
                             <input type="date" class="form-control" id="editFechaInicio" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editFechaFin" class="form-label">Fecha de Fin:</label>
+                            <label for="fechaFin" class="form-label">Fecha de Fin:</label>
                             <input type="date" class="form-control" id="editFechaFin" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editUrlImagen" class="form-label">URL de la Imagen:</label>
-                            <input type="text" class="form-control" id="editUrlImagen" placeholder="Ingrese la URL de la imagen" required>
+                            <label for="descripcion" class="form-label">Descripción:</label>
+                            <textarea class="form-control" id="editDescripcion" placeholder="Ingrese la descripción" maxlength="3000"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="editDescuento" class="form-label">Descuento (%):</label>
-                            <input type="number" class="form-control" id="editDescuento" placeholder="Ingrese el descuento" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editTipo" class="form-label">Tipo:</label>
-                            <select class="form-select" id="editTipo" required>
-                                <option value="PORCENTUAL">Porcentual</option>
-                                <option value="EN_EFECTIVO">Efectivo</option>
-                            </select>
-                        </div>
-                        <!--
-                        <div class="mb-3">
-                            <label for="editServicioRelacionado" class="form-label">Servicio Relacionado:</label>
-                            <select class="form-select" id="servicioRelacionadoEditar" required>
-                            </select>
-                        </div>
--->
-                        <button type="submit" class="btn btn-warning"><i class="fa fa-save"></i> Guardar Cambios</button>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Editar Promoción</button>
                     </form>
                 </div>
             </div>
@@ -168,17 +141,14 @@ if (session_status() !== PHP_SESSION_ACTIVE || !isset($_SESSION['useradmin'])) {
             <table id="promotionsTable" class="table table-hover table-bordered mt-1">
                 <thead class="table-dark">
                     <tr>
-                        <th class="text-center">Cód.</th>
+                        <th class="text-center"></th>
                         <th class="text-center">Título</th>
-                        <th class="text-center">Descripción</th>
-                        <th class="text-center">Estado</th>
-                        <th class="text-center">Fec. Inicio</th>
-                        <th class="text-center">Fec. Fin</th>
-                        <th class="text-center">URL Imagen</th>
                         <th class="text-center">Descuento</th>
                         <th class="text-center">Tipo</th>
-                        <!--<th class="text-center">Servicio</th>-->
-                        <th class="text-center">Acciones</th>
+                        <th class="text-center">Fec. Inicio</th>
+                        <th class="text-center">Fec. Fin</th>
+                        <th class="text-center">Descripción</th>
+                        <th class="text-center">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>

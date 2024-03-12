@@ -12,22 +12,42 @@ if (isset($_POST['signin'])) {
     $useradmin = isset($_POST['options']) ? $_POST['options'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
     if ($useradmin === 'user' && $password !== '') {
-        $sec = "assets/sec/user.txt";
-        $contenido = file_get_contents($sec);
-        if ($contenido == $password) {
+        $role = 'user';
+        $url = 'http://localhost:8080/spa/perfiles/validarAcceso/' . 'USER';
+        $texto = strval($password);
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: text/plain',
+                'content' => $texto
+            ]
+        ];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        if ($response === false) {
+            $msg = "Credenciales incorrectas";
+        } else {
             $_SESSION['useradmin'] = $useradmin;
             header('location:calendar.php');
-        } else {
-            $msg = "Contraseña no es correcta.";
         }
     } elseif ($useradmin === 'admin' && $password !== '') {
-        $sec = "assets/sec/admin.txt";
-        $contenido = file_get_contents($sec);
-        if ($contenido == $password) {
+        $role = 'admin';
+        $url = 'http://localhost:8080/spa/perfiles/validarAcceso/' . 'ADMIN';
+        $texto = strval($password);
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: text/plain',
+                'content' => $texto
+            ]
+        ];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        if ($response === false) {
+            $msg = "Credenciales incorrectas";
+        } else {
             $_SESSION['useradmin'] = $useradmin;
             header('location:calendar.php');
-        } else {
-            $msg = "Contraseña no es correcta.";
         }
     } else {
         $msg = "Nombre de usuario '" . $useradmin . "' no es válido.";
@@ -60,8 +80,8 @@ if (isset($_POST['signin'])) {
                     <div class="form-group">
                         <h4>Ingrese la contraseña</h4>
                         <select class="form-control" name="options">
-                            <option value="user">Recepcionista</option>
-                            <option value="admin">Administrador</option>
+                            <option value="user" <?php if ($role === 'user') echo ' selected'; ?>>Recepcionista</option>
+                            <option value="admin" <?php if ($role === 'admin') echo ' selected'; ?>>Administrador</option>
                         </select>
                         <input class="form-control input-medio" type="password" name="password" placeholder="******" required="true">
                         <small><?php if (isset($msg)) {
@@ -69,7 +89,9 @@ if (isset($_POST['signin'])) {
                                 } ?></small>
                         <div class="botones">
                             <input type="submit" class="btn btn-success" name="signin" value="Iniciar sesión">
+                            <!--
                             <a id="Forgot-password" type="post" name="recuperar_password" style="cursor: pointer;color: blue;"><u>Recuperar Contraseña</u></a>
+                            -->
                         </div>
                     </div>
                 </form>
